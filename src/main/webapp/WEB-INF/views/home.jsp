@@ -29,8 +29,8 @@
 
 	window.onload = loadHandler
 	
-	const items = document.querySelectorAll('.items')
-	console.log('items',items)
+// 	const items = document.querySelectorAll('.items')
+// 	console.log('items',items)
 </script>
 </body>
 </html>

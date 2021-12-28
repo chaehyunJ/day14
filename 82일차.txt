@@ -38,3 +38,90 @@ insert into todo values (todo_seq.nextval, '프로젝트 시작','기획 및 설
 
 commit;
 	
+
+====================================================
+
+
+FormData 
+- ajax로 form 전송을 가능하게 해주는 객체
+- 보통 ajax로 form을 전송하는 경우는 **거의** 없습니다
+- 전송 방식은 json으로 key-value
+- window.FormData에 위치합니다
+- const formData = new FormData(form의 id또는 form의 위치?)
+
+formData에 값이 들어갔는지 확인
+- formData.has('title') : true or false
+- formData.get(key) 	: value
+- formData.getAll(key)	: ['key', 'value']
+
+
+iterator로 formData 가져오기
+
+let keys = formData.keys()
+		
+console.log('1', keys.next())
+console.log('2', keys.next())
+console.log('3', keys.next())
+console.log('4', keys.next())
+		
+let value = formData.values()
+		
+console.log('1-1', value.next())
+console.log('2-1', value.next())
+console.log('3-1', value.next())
+console.log('4-1', value.next())
+		
+let entries = formData.entries()
+		
+console.log('1-2', entries.next())
+console.log('2-2', entries.next())
+console.log('3-2', entries.next())
+console.log('4-2', entries.next())
+
+
+=====================
+
+객체 순회
+- 순서가 있는 배열과 달리, 객체는 순서가 없어서 키를 통해서만 접근가능합니다.
+- 객체 순회는 순서가 보장되지 않은 순회라고 합니다.
+
+- 여기서 우리는 입력받을 공간을 임의의 객체로 만들었기 때문에 객체 접근하기 위해서는 key로 접근해야 합니다
+
+=====================
+
+forEach 반복문
+- forEach문은 오직 Array객체에서만 사용 가능한 메서드입니다
+- const items = ['item1', 'item2', 'item3']
+items.forEach(function(item){
+	console.log(item)
+}
+
+for in 반복문
+- 객체의 속성들을 반복하여 작업을 수행할 수 있습니다
+- 모든 객체에 사용가능합니다
+- key값에는 접근 가능하지만, value 값에는 접근하는 방법을 제공하지 않습니다
+- 그래서 [Enumerable] -> 열거가능한 속성을 사용합니다
+
+const ob = {
+	a : 1,
+	b : 2,
+	c : 3
+}
+
+for(key in ob){
+	console.log(key, ob[key])	
+}
+
+
+for of 반복문
+- ES6부터 추가된 새로운 컬렉션 전용 반복 구문입니다
+- [Symbol.iterator] 속성을 가지고 있어야 합니다
+
+- https://valuefactory.tistory.com/279  -> Symbol.iterator 정리 나이스
+
+const iterable = [4,5,6]
+
+for(key of iterable){
+	console.log(value)
+}
+

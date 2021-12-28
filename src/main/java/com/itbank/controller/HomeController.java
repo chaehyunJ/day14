@@ -18,20 +18,20 @@ public class HomeController{
 		return "home";
 	}
 	
-	@GetMapping("/delete/{idx}")
-	public ModelAndView delete(@PathVariable int idx){
-			ModelAndView mav = new ModelAndView();
-			
-			int row = ts.getDelete(idx);
-			if(row == 1) {
-				mav.setViewName("alert");
-				mav.addObject("msg", "삭제 성공");
-				
-			}
-			else {
-				mav.setViewName("alert");
-				mav.addObject("msg", "삭제 실패");
-			}
-		return mav;
-	}
+//	@GetMapping("/delete/{idx}")
+//	public ModelAndView delete(@PathVariable int idx){
+//			ModelAndView mav = new ModelAndView();
+//			
+//			int row = ts.getDelete(idx);
+//			if(row == 1) {
+//				mav.setViewName("alert");
+//				mav.addObject("msg", "삭제 성공");
+//				
+//			}
+//			else {
+//				mav.setViewName("alert");
+//				mav.addObject("msg", "삭제 실패");
+//			}
+//		return mav;
+//	}
 }
