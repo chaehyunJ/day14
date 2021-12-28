@@ -6,6 +6,8 @@ function submitHandler(event){	// 폼이 submit할때 등록하는 함수
 		const ob = {}
 		
 		// form에 입력한 데이터 가져오기
+		
+		// 입력된 파라미터를 map처럼 가져온다
 		const formData = new FormData(event.target)
 		console.log(formData)
 		console.log('formData.keys()',formData.keys())
@@ -42,13 +44,16 @@ function submitHandler(event){	// 폼이 submit할때 등록하는 함수
 		}
 		
 		console.log(ob)
+		// json 형식으로 
+		// {"title" : "btn"} 이렇게 들어온다
+		console.log(JSON.stringify(ob))
 		
 		const url = cpath + '/getTodoData'
 		const opt = {
 			method : 'POST',
-			body : JSON.stringify(ob),
+			body : JSON.stringify(ob),	// stringify로 ob객체를 json타입으로 변형한다
 			headers : {
-				// 보내는 형식은 json이고 인코딩은 utf-8로 지정
+				// 보내는 형식은 json이고 인코딩은 utf-8로 지정(한글이 포함되어 있으니까 utf-8로 간다)
 				'Content-type' : 'application/json; charset=utf-8'
 			}
 		}
@@ -57,12 +62,16 @@ function submitHandler(event){	// 폼이 submit할때 등록하는 함수
 		.then(resp => resp.text())
 		.then(text => {
 			if(text == 1){
+				event.target.reset()
+				list.innerHTML = ''
+				loadHandler()
 				alert('작성 성공')
-				location.href= cpath
+//				location.href= cpath
 			}
 			else{
 				alert('작성 실패')
-				event.target.reset()
+//				event.target.reset()
+				event.target.querySelector('input').select()
 			}
 		})
 		
@@ -77,15 +86,22 @@ function rightClickHandler(event){
 //	if(target.classList.contains('.items') == false){
 //		target = target.parentElement
 //	}
-	if(target.classList.className != 'items'){
+//	if(target.classList.className != 'items'){
+//		target = target.parentElement
+//		
+//	}
+	
+	// if문으로 돌리면 다른 요소를 선택할 수 있으니까
+	// 위에 h3나 다른 태그가 있을 경우가 있으니까 while문으로 돌려주는 것이 좋다
+	while(target.classList.contains('items') == false){
 		target = target.parentElement
-		
 	}
-	console.log(target)
+	console.log('target',target)
 	
 	let idx = target.dataset.idx
+	let title = target.dataset.title
 //	alert('우클릭 이벤트 발생' + idx)
-	const flag = confirm('정말 ' + idx + ' 일정을 삭제하시겠습니까?')
+	const flag = confirm('정말 ' + title + ' 일정을 삭제하시겠습니까?')
 	if(flag){
 		const url = cpath + '/todo/' + idx
 		const opt = {
@@ -95,8 +111,11 @@ function rightClickHandler(event){
 		.then(resp => resp.text())
 		.then(text => {
 			if(text == 1){
+
 				alert('삭제성공')
-				location.href= cpath
+				list.innerHTML = ''		// 목록을 지우고 새로고침하는 것이 좋다  페이지를 새로고침하지 않는 것 
+				loadHandler()
+//				location.href= cpath
 			}
 			else{
 				alert('삭제 실패')
@@ -110,7 +129,7 @@ function rightClickHandler(event){
 
 
 
-function loadHandler(event){	// 목록 불러오는 함수
+function loadHandler(){	// 목록 불러오는 함수
 	console.log('loadHandler 호출')
 	const url = cpath + '/todo'
 	const opt = {
@@ -152,11 +171,12 @@ function loadHandler(event){	// 목록 불러오는 함수
 function getDom(json){
 	let dom = ''
 		json.forEach(dto =>{
-			dom += '<div class="items" data-idx="' + dto.idx +'">'
+			dom += '<div class="items" data-idx="' + dto.idx +'" data-title="'+ dto.title +'">'
 //			for(key in dto){
 //				dom += '<div>' + dto[key] + '</div>'
 //			}
-			dom += '<div>' + new Date(dto.tdate + 1000 * 60 * 60 * 24).toISOString().split('T')[0] + '</div>'
+			// toISOString 은  영국 표준시 기준이라 한국으 +0900이라서 9만 곱해주면 된다 
+			dom += '<div>' + new Date(dto.tdate + 1000 * 60 * 60 * 9).toISOString().split('T')[0] + '</div>'
 			dom += '<div>' + dto.idx + '</div>'
 			dom += '<div>' + dto.title + '</div>'
 			dom += '<div>' + dto.content + '</div>'

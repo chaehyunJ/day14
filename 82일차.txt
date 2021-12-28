@@ -11,6 +11,10 @@ update		PUT		/board		O
 delete		DELETE		/board/id	X
 
 
+어떻게 응답을 받고 어떻게 요청을 할 것인지 미리 정해져 있다
+get 은 주소창에 쿼리스트링으로 받을 수 있긴하다 근데 pathvariable로 받을 수 있다
+통째로 전달해야 하는 post와 put은 body가 있는 것이다
+
 
 목록 , 삽입, 삭제
 

@@ -16,8 +16,10 @@
 
 </section>
 
+<button id="btn"></button>
+
 <script>
-	// 이벤트 처리
+//  이벤트 처리
 // 	const section = document.querySelector('section')
 // 	console.log(section)
 	const form = document.forms[0]
@@ -29,6 +31,9 @@
 
 	window.onload = loadHandler
 	
+	
+	const btn = document.getElementById('btn')
+	console.log({btn : btn})
 // 	const items = document.querySelectorAll('.items')
 // 	console.log('items',items)
 </script>
